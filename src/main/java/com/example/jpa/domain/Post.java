@@ -1,10 +1,10 @@
 package com.example.jpa.domain;
 
+import com.example.jpa.dto.PostDto;
 import com.example.jpa.serializer.PostCommentSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -29,7 +29,7 @@ public class Post {
   @Column(nullable = false, columnDefinition = "text")
   private String content;
 
-  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JsonIgnore
   @JsonSerialize(using = PostCommentSerializer.class)
   private Collection<PostComment> postComments = new ArrayList<>();
@@ -40,11 +40,15 @@ public class Post {
   @LastModifiedDate
   private LocalDateTime updatedAt;
 
+  public Post(PostDto.RegisterReq dto) {
+    this.title = dto.getTitle();
+    this.content = dto.getContent();
+  }
+
   @Builder
   public Post(int id, String title, String content) {
     this.id = id;
     this.title = title;
-    this.content = content;
     this.content = content;
   }
 }

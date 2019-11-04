@@ -1,11 +1,14 @@
 package com.example.jpa.controller;
 
+import com.example.jpa.domain.PostComment;
+import com.example.jpa.dto.PostCommentDto;
 import com.example.jpa.dto.PostDto;
 import com.example.jpa.domain.Post;
-import com.example.jpa.domain.PostComment;
+import com.example.jpa.repository.PostCommentRepository;
 import com.example.jpa.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +19,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "api/posts", produces = "application/json; charset=utf-8")
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
 
   private final PostRepository postRepository;
+  private final PostCommentRepository postCommentRepository;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -28,21 +33,8 @@ public class PostController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public PostDto.Res register(@RequestBody @Valid final PostDto.RegisterReq dto) {
-
-    Post post = new Post();
-    post.setTitle(dto.getTitle());
-    post.setContent(dto.getContent());
-
-    PostComment postComment = new PostComment();
-    postComment.setContent("댓글");
-    postComment.setPost(post);
-
-    post.getPostComments().add(postComment);
-
-    postRepository.save(post);
-
-    return new PostDto.Res(post);
+  public PostDto.Res registerPost(@RequestBody @Valid final PostDto.RegisterReq dto) {
+    return new PostDto.Res(postRepository.save(new Post(dto)));
   }
 
   @PutMapping("/{id}")
@@ -55,6 +47,15 @@ public class PostController {
       .build();
 
     return new PostDto.Res(postRepository.save(post));
+  }
+
+  @PostMapping("/{id}/comments")
+  @ResponseStatus(HttpStatus.CREATED)
+  public PostCommentDto.Res registerPostComment(@PathVariable("id") int id, @RequestBody @Valid final PostCommentDto.RegisterReq dto) throws ChangeSetPersister.NotFoundException {
+    PostComment postComment = new PostComment(dto);
+    Post post = postRepository.findOneById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    postComment.setPost(post);
+    return new PostCommentDto.Res(postCommentRepository.save(postComment));
   }
 
 }

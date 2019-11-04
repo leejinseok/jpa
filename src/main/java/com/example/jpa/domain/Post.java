@@ -1,7 +1,10 @@
 package com.example.jpa.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.example.jpa.serializer.PostCommentSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +15,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "posts")
+@NoArgsConstructor
 @Getter @Setter
 public class Post {
 
@@ -19,13 +23,15 @@ public class Post {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @Column(name = "title", nullable = false, length = 75)
+  @Column(nullable = false, length = 75)
   private String title;
 
-  @Column(name = "content", nullable = false, columnDefinition = "text")
+  @Column(nullable = false, columnDefinition = "text")
   private String content;
 
-  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.PERSIST)
+  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+  @JsonIgnore
+  @JsonSerialize(using = PostCommentSerializer.class)
   private Collection<PostComment> postComments = new ArrayList<>();
 
   @CreatedDate
@@ -33,4 +39,12 @@ public class Post {
 
   @LastModifiedDate
   private LocalDateTime updatedAt;
+
+  @Builder
+  public Post(int id, String title, String content) {
+    this.id = id;
+    this.title = title;
+    this.content = content;
+    this.content = content;
+  }
 }

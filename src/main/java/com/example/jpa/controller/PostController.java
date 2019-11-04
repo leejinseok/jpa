@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/posts", produces = "application/json; charset=utf-8")
@@ -17,6 +19,12 @@ import javax.validation.Valid;
 public class PostController {
 
   private final PostRepository postRepository;
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public Collection<PostDto.Res> getPosts() {
+    return postRepository.findAll().stream().map(PostDto.Res::new).collect(Collectors.toList());
+  }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -36,4 +44,17 @@ public class PostController {
 
     return new PostDto.Res(post);
   }
+
+  @PutMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public PostDto.Res update(@PathVariable("id") int id, @RequestBody @Valid final PostDto.RegisterReq dto) {
+    Post post = Post.builder()
+      .id(id)
+      .title(dto.getTitle())
+      .content(dto.getContent())
+      .build();
+
+    return new PostDto.Res(postRepository.save(post));
+  }
+
 }

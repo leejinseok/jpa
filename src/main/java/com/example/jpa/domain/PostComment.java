@@ -1,5 +1,7 @@
 package com.example.jpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +20,7 @@ public class PostComment {
   private String content;
 
   @ManyToOne
+  @JoinColumn(name = "post_id", nullable = false)
+  @JsonIgnore
   private Post post;
 }

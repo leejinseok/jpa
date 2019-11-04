@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import java.io.IOException;
 
 public class PostCommentSerializer extends JsonSerializer<PostComment> {
+
   @Override
   public void serialize(PostComment postComment, JsonGenerator gen, SerializerProvider serializers) throws IOException {
     gen.writeStartObject();

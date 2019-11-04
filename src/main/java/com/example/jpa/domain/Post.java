@@ -29,9 +29,7 @@ public class Post {
   @Column(nullable = false, columnDefinition = "text")
   private String content;
 
-  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JsonIgnore
-  @JsonSerialize(using = PostCommentSerializer.class)
+  @OneToMany(mappedBy = "post", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Collection<PostComment> postComments = new ArrayList<>();
 
   @CreatedDate

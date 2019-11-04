@@ -4,6 +4,7 @@ import com.example.jpa.domain.Post;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import org.springframework.boot.jackson.JsonComponent;
 
 import java.io.IOException;
 

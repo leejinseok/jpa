@@ -17,7 +17,6 @@ public class PostDto {
     private String title;
     @NotEmpty
     private String content;
-    private Collection<PostComment> comments;
 
     public RegisterReq(String title, String content) {
       this.title  = title;
@@ -30,14 +29,14 @@ public class PostDto {
 
     private String title;
     private String content;
-    private Collection<PostComment> comments;
+//    private Collection<PostComment> comments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Res(Post post) {
       this.title = post.getTitle();
       this.content = post.getContent();
-      this.comments = post.getPostComments();
+//      this.comments = post.getPostComments();
       this.createdAt = post.getCreatedAt();
       this.updatedAt = post.getUpdatedAt();
     }

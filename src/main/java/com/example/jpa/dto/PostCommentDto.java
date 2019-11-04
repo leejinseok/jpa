@@ -27,7 +27,7 @@ public class PostCommentDto {
     private String content;
 
     public Res(PostComment comment) {
-      this.post = new PostDto.Res(comment.getPost());
+//      this.post = new PostDto.Res(comment.getPost());
       this.content = comment.getContent();
     }
   }

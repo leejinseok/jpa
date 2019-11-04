@@ -1,6 +1,7 @@
 package com.example.jpa.domain;
 
 import com.example.jpa.dto.PostCommentDto;
+import com.example.jpa.serializer.PostCommentSerializer;
 import com.example.jpa.serializer.PostSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -26,9 +27,10 @@ public class PostComment {
   @Column
   private String content;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)
-  @JsonIgnore
+//  @JsonIgnore
+  @JsonSerialize(using = PostSerializer.class)
   private Post post;
 
   public PostComment(PostCommentDto.RegisterReq dto) {

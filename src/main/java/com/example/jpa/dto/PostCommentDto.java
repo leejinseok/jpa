@@ -1,11 +1,8 @@
 package com.example.jpa.dto;
 
-import com.example.jpa.domain.Post;
 import com.example.jpa.domain.PostComment;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 

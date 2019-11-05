@@ -2,7 +2,6 @@ package com.example.jpa.domain;
 
 import com.example.jpa.dto.PostDto;
 import com.example.jpa.serializer.PostCommentSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

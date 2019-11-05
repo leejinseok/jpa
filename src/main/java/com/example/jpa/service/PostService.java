@@ -12,6 +12,7 @@ import java.util.Collection;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
   private final PostRepository postRepository;
 
   public Collection<Post> getPosts() {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PostCommentService {
+
   private final PostCommentRepository postCommentRepository;
   private final PostRepository postRepository;
 

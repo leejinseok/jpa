@@ -4,30 +4,27 @@ import com.example.jpa.domain.Post;
 import com.example.jpa.domain.PostComment;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 public class PostCommentDto {
 
+  @NoArgsConstructor
   @Getter
   public static class RegisterReq {
     @NotEmpty
     private String content;
-
-    @Builder
-    public RegisterReq(int postId, String content) {
-      this.content = content;
-    }
   }
 
   @Getter
   public static class Res {
-    private PostDto.Res post;
+    private int post;
     private String content;
 
     public Res(PostComment comment) {
-      this.post = new PostDto.Res(comment.getPost());
+      this.post = comment.getPost().getId();
       this.content = comment.getContent();
     }
   }

@@ -1,8 +1,6 @@
 package com.example.jpa.domain;
 
-import com.example.jpa.dto.PostCommentDto;
 import com.example.jpa.serializer.PostSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

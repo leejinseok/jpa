@@ -1,11 +1,12 @@
 package com.example.jpa.controller;
 
-import com.example.jpa.domain.PostComment;
 import com.example.jpa.dto.PostCommentDto;
 import com.example.jpa.dto.PostDto;
 import com.example.jpa.domain.Post;
 import com.example.jpa.repository.PostCommentRepository;
 import com.example.jpa.repository.PostRepository;
+import com.example.jpa.service.PostCommentService;
+import com.example.jpa.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -22,48 +23,37 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PostController {
 
-  private final PostRepository postRepository;
-  private final PostCommentRepository postCommentRepository;
+  private final PostCommentService postCommentService;
+  private final PostService postService;
 
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public Collection<PostDto.Res> getPosts() {
-    return postRepository.findAll().stream().map(PostDto.Res::new).collect(Collectors.toList());
+    return postService.getPosts().stream().map(PostDto.Res::new).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public PostDto.ResDetail getPost(@PathVariable("id") final int id) throws ChangeSetPersister.NotFoundException {
-    return new PostDto.ResDetail(postRepository.findOneById(id).orElseThrow(ChangeSetPersister.NotFoundException::new));
+    return new PostDto.ResDetail(postService.getPost(id));
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public PostDto.Res registerPost(@RequestBody @Valid final PostDto.RegisterReq dto) {
-    return new PostDto.Res(postRepository.save(new Post(dto)));
+    return new PostDto.Res(postService.savePost(new Post(dto)));
   }
 
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public PostDto.Res update(@PathVariable("id") int id, @RequestBody @Valid final PostDto.RegisterReq dto) {
-    Post post = Post.builder()
-      .id(id)
-      .title(dto.getTitle())
-      .content(dto.getContent())
-      .build();
-
-    return new PostDto.Res(postRepository.save(post));
+    return new PostDto.Res(postService.updatePost(id, dto));
   }
 
   @PostMapping("/{id}/comments")
   @ResponseStatus(HttpStatus.CREATED)
   public PostCommentDto.Res registerPostComment(@PathVariable("id") final int id, @RequestBody @Valid final PostCommentDto.RegisterReq dto) throws ChangeSetPersister.NotFoundException {
-    PostComment postComment = PostComment.builder()
-      .content(dto.getContent())
-      .post(postRepository.findOneById(id).orElseThrow(ChangeSetPersister.NotFoundException::new))
-      .build();
-
-    return new PostCommentDto.Res(postCommentRepository.save(postComment));
+    return new PostCommentDto.Res(postCommentService.saveComment(id, dto));
   }
 
 }

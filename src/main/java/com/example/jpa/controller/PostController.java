@@ -33,7 +33,7 @@ public class PostController {
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public PostDto.ResDetail getPost(@PathVariable("id") int id) throws ChangeSetPersister.NotFoundException {
+  public PostDto.ResDetail getPost(@PathVariable("id") final int id) throws ChangeSetPersister.NotFoundException {
     return new PostDto.ResDetail(postRepository.findOneById(id).orElseThrow(ChangeSetPersister.NotFoundException::new));
   }
 
@@ -57,7 +57,7 @@ public class PostController {
 
   @PostMapping("/{id}/comments")
   @ResponseStatus(HttpStatus.CREATED)
-  public PostCommentDto.Res registerPostComment(@PathVariable("id") int id, @RequestBody @Valid final PostCommentDto.RegisterReq dto) throws ChangeSetPersister.NotFoundException {
+  public PostCommentDto.Res registerPostComment(@PathVariable("id") final int id, @RequestBody @Valid final PostCommentDto.RegisterReq dto) throws ChangeSetPersister.NotFoundException {
     PostComment postComment = PostComment.builder()
       .content(dto.getContent())
       .post(postRepository.findOneById(id).orElseThrow(ChangeSetPersister.NotFoundException::new))

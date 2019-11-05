@@ -1,0 +1,19 @@
+server:
+  port: 8030
+
+spring:
+  profiles:
+    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB53Dialect
+        show_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/jpa?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: root
+    password: 1111
+
+

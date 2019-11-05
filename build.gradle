@@ -15,6 +15,7 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
+    compile 'org.springframework.boot:spring-boot-configuration-processor'
 
     runtimeOnly 'mysql:mysql-connector-java'
 }

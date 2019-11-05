@@ -17,6 +17,7 @@ public class PostCommentDto {
 
   @Getter
   public static class Res {
+
     private int post;
     private String content;
 

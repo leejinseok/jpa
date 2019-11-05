@@ -3,8 +3,6 @@ package com.example.jpa.controller;
 import com.example.jpa.dto.PostCommentDto;
 import com.example.jpa.dto.PostDto;
 import com.example.jpa.domain.Post;
-import com.example.jpa.repository.PostCommentRepository;
-import com.example.jpa.repository.PostRepository;
 import com.example.jpa.service.PostCommentService;
 import com.example.jpa.service.PostService;
 import lombok.RequiredArgsConstructor;

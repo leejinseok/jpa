@@ -23,5 +23,4 @@ public class PostCommentService {
 
     return postCommentRepository.save(comment);
   }
-
 }

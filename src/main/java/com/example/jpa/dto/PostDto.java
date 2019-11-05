@@ -42,6 +42,7 @@ public class PostDto {
 
   @Getter
   public static class ResDetail {
+
     private String title;
     private String content;
     private Collection<PostComment> comments;
